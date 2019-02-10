@@ -1,7 +1,18 @@
+function showExistingContacts(){
+  let innerContent="<table><tr><th>Name</th><th>Phone Number </th><th>Address</th></tr>";
+  let contactArr=JSON.parse(localStorage.getItem('contact'));
+  for(let i=0;i<contactArr.length;i++){
+    innerContent+="<tr><td>"+contactArr[i].name+"</td><td>"+contactArr[i].number+"</td><td>"+contactArr[i].address+"</td></tr>";
+  }
+  innerContent+="</table>";
+  document.getElementById('contact-book').innerHTML=innerContent;
+}
+
+
 window.onload=()=>{
   let submitButton=document.getElementById('submit-contact');
   submitButton.onclick=(e)=>{
-    e.preventDefault();
+    //e.preventDefault();
     let dataFormat={'name':document.getElementById('name').value,
                    'phone':document.getElementById('number').value,
                     'address':[document.getElementById('address-1').value,document.getElementById('address-2').value,document.getElementById('address-3').value]
@@ -16,15 +27,21 @@ window.onload=()=>{
       newContactArr.push(dataFormat);
       localStorage.setItem('contact',JSON.stringify(newContactArr));
     }
-    //Save the modified array back to Storage
-  }
 
+    //Save the modified array back to Storage
+    showExistingContacts();
+  }
   function showExistingContacts(){
-    let innerContent="<table><tr><th>Name</th><th>Phone Number </th><th>Address</th></tr>";
+    let innerContent="<table class=\"table\"><tr><th>Name</th><th>Phone Number </th><th>Address</th></tr>";
     let contactArr=JSON.parse(localStorage.getItem('contact'));
+    if(contactArr!=null){
     for(let i=0;i<contactArr.length;i++){
-      innerContent+="<tr><td>"+contactArr[i].name+"</td>"
+      innerContent+="<tr><td>"+contactArr[i].name+"</td><td>"+contactArr[i].phone+"</td><td>"+contactArr[i].address+"</td></tr>";
+    }
+    innerContent+="</table>";
+    document.getElementById('contact-book').innerHTML=innerContent;
     }
   }
+  showExistingContacts();
 
 }
